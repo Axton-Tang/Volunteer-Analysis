@@ -1,0 +1,163 @@
+<template>
+    <div class="wrapper" v-if = 'showTable'>
+        <div class="content-wrapper">
+            <div class="header-wrapper">
+                <div class="grade-progress">
+                    <div :class="gradeStyle">{{grade}}</div>
+                    <el-progress type="dashboard" text-inside='' :percentage="percentage" :color="colors"></el-progress>
+                </div>
+                <div class="tips-wrapper">
+                    <p class="tips">
+                        文字是人类用表义符号记录表达信息以传之久远的方式和工具。现代文字大多是记录语言的工具。人类往往先有口头的语言后产生书面文字，很多小语种，有语言但没有文字。文字的不同体现了国家和民族的书面表达的方式和思维不同。文字使人类进入有历史记录的文明社会。文字按字音和字形，可分为表形文字、表音文字和
+                    </p>
+                </div>
+            </div>
+            <div class="admission-title">
+                <div>{{this.linedata.radio1}}</div>&nbsp;
+                <div>{{this.linedata.radio2}}</div>
+                历年录取情况
+            </div>
+            <el-table class="table-content"
+                :data="tableData"
+                style="width: 80%">
+                <el-table-column
+                    prop="year"
+                    label="年份"
+                    width="180">
+                </el-table-column>
+                <el-table-column
+                    prop="lowscore"
+                    label="最低分"
+                    width="180">
+                </el-table-column>
+                <el-table-column
+                    prop="lowrank"
+                    label="最低位次"
+                    width="180">
+                </el-table-column>
+                <el-table-column
+                    prop="type"
+                    label="招生类型"
+                    width="180">
+                </el-table-column>
+                <el-table-column
+                    prop="batch"
+                    label="录取批次"
+                    width="180">
+                </el-table-column>
+            </el-table>
+        </div>
+        
+    </div>
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+    name: 'HomeLineTable',
+    props : {
+        linedata: Object
+    },
+    data () {
+        return {
+            showTable: false,
+            tableData: '',
+            percentage: 0,
+            colors: [
+            {color: '#f56c6c', percentage: 20},
+            {color: '#e6a23c', percentage: 40},
+            {color: '#5cb87a', percentage: 60},
+            {color: '#1989fa', percentage: 80},
+            {color: '#6f7ad3', percentage: 100}
+            ],
+            grade: '',
+            gradeStyle: 'grade-one'
+        }
+    },
+    methods: {
+        submitForm () {
+            
+            axios.get('http://localhost:8000/api/lookup/line?province='+this.linedata.radio1+ '&subject=' +this.linedata.radio2+ '&rank=' +this.linedata.num1)
+                .then(this.getHomeInfoSucc)
+        },
+        getHomeInfoSucc (res) {
+            const gradeno = res.data.rankno
+            if (gradeno === 1) {
+                this.grade = '极高'
+                this.percentage = 90
+                this.gradeStyle = 'grade-two'
+            } else if (gradeno ===2) {
+                this.grade = '高'
+                this.percentage = 70
+            } else if (gradeno ===3) {
+                this.grade = '中'
+                this.percentage = 40
+            } else if (gradeno ===4) {
+                this.grade = '低'
+                this.percentage = 10
+            }
+            res=res.data
+            const data=res.data
+            this.tableData = data
+            this.showTable = true
+        }
+    },
+    watch: {
+        linedata () {
+            this.submitForm()
+        }
+    }
+
+}
+</script>
+
+<style lang="stylus" scoped>
+    @import '~@/assets/styles/varibles.styl'
+    .wrapper
+        display flex
+        flex-direction column
+        align-items center
+        margin-bottom 50px
+        .content-wrapper
+            width 1200px
+            box-shadow: 0 2px 12px 0 rgba(64, 158, 255, 0.3)
+            display flex
+            flex-direction column
+            align-items center
+            .header-wrapper
+                width 100%
+                margin 30px 0
+                .grade-progress
+                    position relative
+                    width 300px
+                    margin 0 0 0 300px
+                    float left
+                    .grade-one
+                        position absolute
+                        left 50px
+                        top 45px
+                        font-size 25px
+                    .grade-two
+                        position absolute
+                        left 38px
+                        top 45px
+                        font-size 25px
+                .tips-wrapper
+                    float left
+                    word-wrap break-word
+                    width 440px
+                    margin 0 160px 0 0
+                    
+            .table-content
+                margin 20px 50px
+            .admission-title
+                width 1200px
+                position relative
+                left 130px
+                font-size 22px
+            .admission-title div
+                float left
+                color $bgColor
+                font-weight 600
+</style>
