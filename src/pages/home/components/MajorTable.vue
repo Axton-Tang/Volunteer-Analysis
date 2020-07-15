@@ -1,21 +1,15 @@
 <template>
-    <div class="wrapper" v-if = 'showTable' v-loading="loading">
-        <el-popconfirm
-        class="back"
-        title="请不要频繁返回！"
-        @onConfirm="handleBack"
-        >
-        <el-button slot="reference" >返回</el-button>
-        </el-popconfirm>
+    <div class="wrapper" v-if='showEnterMajor'>
         <div class="content-wrapper">
-            <h1 style="margin-top:40px;color:#">录取概率分析</h1>
+            <h1 style="margin-top:40px;color:#333">专业被调剂率分析</h1>
             <div class="title-wrapper">
-                <div class="title-one">录取概率 <i class="el-icon-question"></i></div>
+                <div class="title-one">专业被调剂率 <i class="el-icon-question"></i></div>
                 <div class="title-weo">重要提示</div>
             </div>
+            
             <div class="header-wrapper">
                 <div class="grade-progress">
-                    <div :class="gradeStyle">{{grade}}</div>
+                    <div class="gradeStyle">{{grade}}</div>
                     <el-progress type="dashboard" text-inside='' :percentage="percentage" :color="colors"></el-progress>
                 </div>
                 <div class="tips-wrapper">
@@ -26,40 +20,36 @@
             </div>
             <div class="border"></div>
             <div class="admission-title">
+                <div style="color:#333;font-weight:500">2020&nbsp;</div>
                 <div>{{this.linedata.radio1}}</div>&nbsp;
                 <div>{{this.linedata.radio2}}</div>
-                历年录取情况
+                该专业招生计划
             </div>
             <el-table class="table-content"
                 :data="tableData"
-                style="width: 80%"
-                >
+                style="width: 80%">
                 <el-table-column
-                    prop="year"
-                    label="年份"
-                    width="180">
+                    prop="smajor"
+                    label="专业"
+                    width="220">
                 </el-table-column>
                 <el-table-column
-                    prop="lowscore"
-                    label="最低分"
-                    width="180">
+                    prop="plancount"
+                    label="招生人数"
+                    width="220">
                 </el-table-column>
                 <el-table-column
-                    prop="lowrank"
-                    label="最低位次"
-                    width="180">
+                    prop="money"
+                    label="学费(元/年)"
+                    width="220">
                 </el-table-column>
                 <el-table-column
-                    prop="type"
-                    label="招生类型"
-                    width="200">
-                </el-table-column>
-                <el-table-column
-                    prop="batch"
-                    label="录取批次"
-                    width="200">
+                    prop="remarks"
+                    label="备注"
+                    width="260">
                 </el-table-column>
             </el-table>
+            
         </div>
         
     </div>
@@ -69,11 +59,11 @@
 import axios from 'axios'
 
 export default {
-    name: 'HomeLineTable',
-    props : ['linedata', 'showAgainTable'],
+    name: 'HomeMajorTable',
+    props : ['linedata', 'majorValue'],
     data () {
         return {
-            showTable: false,
+            showEnterMajor:false,
             tableData: [],
             percentage: 0,
             colors: [
@@ -83,51 +73,34 @@ export default {
             {color: '#1989fa', percentage: 80},
             {color: '#6f7ad3', percentage: 100}
             ],
-            grade: '',
-            gradeStyle: 'grade-one',
-            loading: true
+            grade: ''
         }
     },
     methods: {
-        handleBack() {
-            this.showTable = false,
-            this.tableData = []
-            this.$emit('backForm')
 
-        },
         submitForm () {
             
-            axios.get('http://localhost:8000/api/lookup/line?province='+this.linedata.radio1+ '&subject=' +this.linedata.radio2+ '&rank=' +this.linedata.num1)
+            axios.get('http://localhost:8000/api/lookup/entermajor?province='+this.linedata.radio1+ '&subject=' +this.linedata.radio2+ '&smajor=' +this.majorValue+'&score='+this.linedata.num2)
                 .then(this.getHomeInfoSucc)
+            axios.get('http://localhost:8000/api/lookup/majorsitu?province='+this.linedata.radio1+ '&subject=' +this.linedata.radio2+ '&smajor=' +this.majorValue)
+                .then(this.getHomeInfoSucc2)
         },
         getHomeInfoSucc (res) {
-            const gradeno = res.data.rankno
-            if (gradeno === 1) {
-                this.grade = '极高'
-                this.percentage = 90
-                this.gradeStyle = 'grade-one' ? 'grade-two' :'grade-one'
-            } else if (gradeno ===2) {
+            const gradeno = res.data.majorno
+            if (gradeno === 10) {
+                this.grade = '低'
+                this.percentage = 30
+            } else if (gradeno ===11) {
                 this.grade = '高'
                 this.percentage = 70
-                this.gradeStyle = 'grade-one'
                 
-            } else if (gradeno ===3) {
-                this.grade = '中'
-                this.percentage = 40
-                this.gradeStyle = 'grade-one'
-                
-            } else if (gradeno ===4) {
-                this.grade = '低'
-                this.percentage = 10
-                this.gradeStyle = 'grade-one'
-               
-            }
+            } 
+            this.showEnterMajor = true
+        },
+        getHomeInfoSucc2 (res) {
             res=res.data
             const data=res.data
             this.tableData = data
-            this.showTable = true
-            this.$emit('isGetMajor', this.grade)
-            this.loading = false
             this.$notify({
                 title: '分析成功',
                 message: '分析结果仅供参考！',
@@ -137,13 +110,13 @@ export default {
         }
     },
     watch: {
-        linedata () {
-            if (this.linedata.num1) {
-                this.submitForm()
-            }   
+        majorValue () {
+            this.submitForm()
         },
-        showAgainTable () {
-            this.showTable = true
+        linedata() {
+            if(this.linedata.num1 == null) {
+                this.showEnterMajor = false
+            }
         }
     },
 
@@ -157,10 +130,7 @@ export default {
         flex-direction column
         align-items center
         margin-bottom 50px
-        .back
-            width 1200px
-            margin-bottom 20px
-            font-size 20px
+
         .content-wrapper
             width 1200px
             box-shadow: 0 2px 12px 0 rgba(64, 158, 255, 0.3)
@@ -191,14 +161,9 @@ export default {
                     width 300px
                     margin 0 0 0 300px
                     float left
-                    .grade-one
+                    .gradeStyle
                         position absolute
                         left 50px
-                        top 45px
-                        font-size 25px
-                    .grade-two
-                        position absolute
-                        left 40px
                         top 45px
                         font-size 25px
                 .tips-wrapper
@@ -209,7 +174,7 @@ export default {
             .border
                 border 1px solid #F5F5F6
                 width 900px
-                margin 0 0 20px 0
+                margin 0 0 20px 0        
             .table-content
                 margin 20px 50px 40px 50px
             .admission-title
