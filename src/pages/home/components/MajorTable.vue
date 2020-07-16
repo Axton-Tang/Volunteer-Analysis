@@ -1,9 +1,20 @@
 <template>
     <div class="wrapper" v-if='showEnterMajor'>
         <div class="content-wrapper">
-            <h1 style="margin-top:40px;color:#333">专业被调剂率分析</h1>
+            <h1 style="margin-top:40px;color:#333">专业被调剂概率分析</h1>
             <div class="title-wrapper">
-                <div class="title-one">专业被调剂率 <i class="el-icon-question"></i></div>
+                <div class="title-one">专业被调剂概率 
+                    <el-popover
+                        placement="right"
+                        title="专业被调剂概率说明"
+                        width="350"
+                        trigger="click"
+                    >
+                        <div>“高” ：被调剂到其他专业的可能性很大 </div>
+                        <div>“低” ：基本上能够进入此专业 </div>
+                        <i class="el-icon-question" slot="reference"></i>
+                    </el-popover>
+                </div>
                 <div class="title-weo">重要提示</div>
             </div>
             

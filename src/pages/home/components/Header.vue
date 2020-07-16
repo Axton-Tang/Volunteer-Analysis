@@ -5,7 +5,7 @@
                 <img class="img" src="
                     https://volunteer-analysis.oss-cn-shenzhen.aliyuncs.com/home/%E8%A7%85%E6%BC%BE%E5%B7%A5%E4%BD%9C%E5%AE%A4LOGO%E7%BD%91%E7%AB%99%E7%89%88.png" alt="觅漾工作室">
             </div>
-            <p class="slogan">高校创新创业校园工作室</p>
+            <p class="slogan">创新创业校园工作室</p>
         </div>
     </div>
 </template>

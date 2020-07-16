@@ -1,16 +1,29 @@
 <template>
     <div class="wrapper" v-if = 'showTable' v-loading="loading">
-        <el-popconfirm
-        class="back"
-        title="请不要频繁返回！"
-        @onConfirm="handleBack"
-        >
-        <el-button slot="reference" >返回</el-button>
-        </el-popconfirm>
         <div class="content-wrapper">
+            <el-popconfirm
+                class="back"
+                title="请不要频繁返回！"
+                @onConfirm="handleBack"
+                >
+                <el-button slot="reference" >返回</el-button>
+            </el-popconfirm>
             <h1 style="margin-top:40px;color:#">录取概率分析</h1>
             <div class="title-wrapper">
-                <div class="title-one">录取概率 <i class="el-icon-question"></i></div>
+                <div class="title-one">录取概率 
+                    <el-popover
+                        placement="right"
+                        title="录取概率说明"
+                        width="350"
+                        trigger="click"
+                    >
+                        <div>“极高” ：在不考虑考生身体状况等其他非成绩因素被退档的情况下,基本上可以被录取</div><br>
+                        <div>“高” ：被录取的概率高 </div>
+                        <div>“中” ：有一定概率被录取，但运气成分很大 </div>
+                        <div>“低” ：基本上不会被录取 </div>
+                        <i class="el-icon-question" slot="reference"></i>
+                    </el-popover>
+                    </div>
                 <div class="title-weo">重要提示</div>
             </div>
             <div class="header-wrapper">
@@ -157,16 +170,17 @@ export default {
         flex-direction column
         align-items center
         margin-bottom 50px
-        .back
-            width 1200px
-            margin-bottom 20px
-            font-size 20px
         .content-wrapper
             width 1200px
             box-shadow: 0 2px 12px 0 rgba(64, 158, 255, 0.3)
             display flex
             flex-direction column
             align-items center
+            .back
+                position fixed
+                font-size 20px
+                left   0
+                top 120px 
             .title-wrapper
                 width 950px
                 text-align center

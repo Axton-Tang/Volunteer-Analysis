@@ -3,13 +3,13 @@
         <div class="content-wrapper">
             <div class="message1">Copyright © 2018 - 2020 觅漾工作室 All Rights Reserved.</div>
             <div class="message2">湖南庠序文化传媒有限公司&nbsp;&nbsp;&nbsp;觅漾工作室&nbsp;&nbsp;&nbsp;旗下产品 &nbsp;&nbsp;&nbsp;
-                开发者 : 技术部 <span style="color:#409EFF"> Axton Tang</span></div>
+                开发者 : 技术部 <span style="color:#409EFF" @click="ClickDeveloper"> Axton Tang</span></div>
             <div class="icon-wrapper">
                 <el-popover class="icon"
                     title="扫一扫了解更多资讯"
                     placement="top"
                     width="70"
-                    trigger="hover"
+                    trigger="click"
                 >
                     <span class="iconfont" slot="reference">&#xe602;</span>
                     <div class="title" slot="reference">官方公众号</div>
@@ -20,7 +20,7 @@
                     title="扫一扫了解更多资讯"
                     placement="top"
                     width="70"
-                    trigger="hover"
+                    trigger="click"
                 >
                     <span class="iconfont" slot="reference">&#xe6c8;</span>
                     <div class="title" slot="reference">官方QQ</div>
@@ -37,6 +37,13 @@
 
 export default {
     name: 'HomeFooter',
+    methods: {
+        ClickDeveloper() {
+            this.$alert('axton-tang@lkdxka.com', '有问题请联系邮箱', {
+            confirmButtonText: '确定',
+            });
+        }
+    }
 
 }
 </script>
