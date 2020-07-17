@@ -20,11 +20,12 @@
                         <div>“极高” ：在不考虑考生身体状况等其他非成绩因素被退档的情况下,基本上可以被录取</div><br>
                         <div>“高” ：被录取的概率高 </div>
                         <div>“中” ：有一定概率被录取，但运气成分很大 </div>
-                        <div>“低” ：基本上不会被录取 </div>
+                        <div>“低” ：基本上不会被录取 </div><br>
+                        <div>“失败” ：表示系统分析失败，可能是系统不支持该省份科类分析,与考生所填信息无关！ </div>
                         <i class="el-icon-question" slot="reference"></i>
                     </el-popover>
                     </div>
-                <div class="title-weo">重要提示</div>
+                <div class="title-weo">重要提醒</div>
             </div>
             <div class="header-wrapper">
                 <div class="grade-progress">
@@ -32,9 +33,8 @@
                     <el-progress type="dashboard" text-inside='' :percentage="percentage" :color="colors"></el-progress>
                 </div>
                 <div class="tips-wrapper">
-                    <p class="tips">
-                        文字是人类用表义符号记录表达信息以传之久远的方式和工具。现代文字大多是记录语言的工具。人类往往先有口头的语言后产生书面文字，很多小语种，有语言但没有文字。文字的不同体现了国家和民族的书面表达的方式和思维不同。文字使人类进入有历史记录的文明社会。文字按字音和字形，可分为表形文字、表音文字和
-                    </p>
+                    <div>1、 录取概率的分析未考虑地方专项计划、国家专项计划、中外合作办学等招生类型。仅分析“普通类”的录取概率</div><br>
+                    <div>2、 系统对考生信息进行分析后所得出的录取概率仅供参考，我方不对录取与否负任何责任！</div>
                 </div>
             </div>
             <div class="border"></div>
@@ -110,7 +110,7 @@ export default {
         },
         submitForm () {
             
-            axios.get('http://localhost:8000/api/lookup/line?province='+this.linedata.radio1+ '&subject=' +this.linedata.radio2+ '&rank=' +this.linedata.num1)
+            axios.get('http://149.129.116.64:3000/api/lookup/line?province='+this.linedata.radio1+ '&subject=' +this.linedata.radio2+ '&rank=' +this.linedata.num1)
                 .then(this.getHomeInfoSucc)
         },
         getHomeInfoSucc (res) {
@@ -135,18 +135,34 @@ export default {
                 this.gradeStyle = 'grade-one'
                
             }
+            else if (gradeno ===5) {
+                this.grade = '失败'
+                this.percentage = 0
+                this.gradeStyle = 'grade-one' ? 'grade-two' :'grade-one'
+               
+            }
             res=res.data
             const data=res.data
             this.tableData = data
             this.showTable = true
             this.$emit('isGetMajor', this.grade)
             this.loading = false
-            this.$notify({
-                title: '分析成功',
-                message: '分析结果仅供参考！',
-                type: 'success',
-                offset: 100
-            });
+            if (gradeno === 5) {
+                this.$notify({
+                    title: '分析失败',
+                    message: '该省份科类不支持分析！',
+                    type: 'error',
+                    offset: 100
+                });
+            }
+            else {
+                this.$notify({
+                    title: '分析成功',
+                    message: '分析结果仅供参考！',
+                    type: 'success',
+                    offset: 100
+                });
+            }
         }
     },
     watch: {
@@ -173,9 +189,11 @@ export default {
         .content-wrapper
             width 1200px
             box-shadow: 0 2px 12px 0 rgba(64, 158, 255, 0.3)
+            border-radius 20px
             display flex
             flex-direction column
             align-items center
+            margin 0 100px
             .back
                 position fixed
                 font-size 20px

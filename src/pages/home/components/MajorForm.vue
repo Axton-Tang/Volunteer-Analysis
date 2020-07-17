@@ -1,7 +1,21 @@
 <template>
     <div class="wrapper" v-if = 'showMajorForm'>
         <div class="content-wrapper">
-            <div class="form-title">专业被调剂率分析<span class="el-icon-question"></span></div>
+            <div class="form-title">
+                <span class="iconfont">&#xe63c;</span>
+                专业被调剂率分析
+                    <el-popover
+                        placement="right"
+                        title="专业被调剂概率分析说明"
+                        width="350"
+                        trigger="click"
+                    >
+                        <div>1、 只有当学校录取概率为“中”及以上的考生才能显示专业被调剂概率分析</div><br>
+                        <div>2、 此处显示的专业为学校在考生所在省份及科类的全部招生专业，未显示的专业则代表在该省份不招生</div>
+                        <i class="el-icon-question" slot="reference"></i>
+                    </el-popover>
+                
+            </div>
             <el-form inline label-width="120px" class="line-Form">
                 
                 <el-form-item class="item-title" label="专业">
@@ -38,7 +52,7 @@ export default {
     },
     methods: {
         getMajor () {
-            axios.get('http://localhost:8000/api/lookup/major?province='+this.linedata.radio1+ '&subject=' +this.linedata.radio2)
+            axios.get('http://149.129.116.64:3000/api/lookup/major?province='+this.linedata.radio1+ '&subject=' +this.linedata.radio2)
                             .then(this.getHomeInfoSucc)
             
         },
@@ -59,7 +73,7 @@ export default {
             }
 
             setTimeout( () => {
-                if (this.linedata.num1 && this.majorGrade !== '低') {
+                if (this.linedata.num1 && this.majorGrade !== '低' && this.majorGrade !== '失败') {
 
                     this.getMajor()
                     this.showMajorForm = true
@@ -81,9 +95,15 @@ export default {
         .content-wrapper
             width 1200px
             box-shadow: 0 2px 12px 0 rgba(64, 158, 255, 0.3)
+            border-radius 20px
+            margin 0 100px
             .form-title
                 margin 40px 0 0 40px
                 font-size 28px
+                .iconfont
+                    font-size 25px
+                    margin-right 5px
+                    color $bgColor
                 .el-icon-question
                     font-size 25px
                     color #ccc

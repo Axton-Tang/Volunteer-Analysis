@@ -15,7 +15,7 @@
                         <i class="el-icon-question" slot="reference"></i>
                     </el-popover>
                 </div>
-                <div class="title-weo">重要提示</div>
+                <div class="title-weo">重要提醒</div>
             </div>
             
             <div class="header-wrapper">
@@ -24,9 +24,10 @@
                     <el-progress type="dashboard" text-inside='' :percentage="percentage" :color="colors"></el-progress>
                 </div>
                 <div class="tips-wrapper">
-                    <p class="tips">
-                        文字是人类用表义符号记录表达信息以传之久远的方式和工具。现代文字大多是记录语言的工具。人类往往先有口头的语言后产生书面文字，很多小语种，有语言但没有文字。文字的不同体现了国家和民族的书面表达的方式和思维不同。文字使人类进入有历史记录的文明社会。文字按字音和字形，可分为表形文字、表音文字和
-                    </p>
+                    <div>1、 只有当学校录取概率为“中”及以上的考生，才能够显示专业被调剂概率分析</div> <br>
+                    <div>2、 专业被调剂概率的是在学校录取概率的基础上分进行析的，
+                        而学校录取概率可能就具有一定偏差，故专业被调剂概率的偏差可能更大，仅供参考！</div><br>
+                    <div>3、 各省份各专业的招生计划只考虑“普通类”</div>
                 </div>
             </div>
             <div class="border"></div>
@@ -78,11 +79,11 @@ export default {
             tableData: [],
             percentage: 0,
             colors: [
-            {color: '#f56c6c', percentage: 20},
-            {color: '#e6a23c', percentage: 40},
+            {color: '#6f7ad3', percentage: 20},
+            {color: '#1989fa', percentage: 40},
             {color: '#5cb87a', percentage: 60},
-            {color: '#1989fa', percentage: 80},
-            {color: '#6f7ad3', percentage: 100}
+            {color: '#e6a23c', percentage: 80},
+            {color: '#f56c6c', percentage: 100}
             ],
             grade: ''
         }
@@ -91,9 +92,9 @@ export default {
 
         submitForm () {
             
-            axios.get('http://localhost:8000/api/lookup/entermajor?province='+this.linedata.radio1+ '&subject=' +this.linedata.radio2+ '&smajor=' +this.majorValue+'&score='+this.linedata.num2)
+            axios.get('http://149.129.116.64:3000/api/lookup/entermajor?province='+this.linedata.radio1+ '&subject=' +this.linedata.radio2+ '&smajor=' +this.majorValue+'&score='+this.linedata.num2)
                 .then(this.getHomeInfoSucc)
-            axios.get('http://localhost:8000/api/lookup/majorsitu?province='+this.linedata.radio1+ '&subject=' +this.linedata.radio2+ '&smajor=' +this.majorValue)
+            axios.get('http://149.129.116.64:3000/api/lookup/majorsitu?province='+this.linedata.radio1+ '&subject=' +this.linedata.radio2+ '&smajor=' +this.majorValue)
                 .then(this.getHomeInfoSucc2)
         },
         getHomeInfoSucc (res) {
@@ -112,12 +113,14 @@ export default {
             res=res.data
             const data=res.data
             this.tableData = data
-            this.$notify({
-                title: '分析成功',
-                message: '分析结果仅供参考！',
-                type: 'success',
-                offset: 100
-            });
+            if (this.tableData) {
+                this.$notify({
+                    title: '分析成功',
+                    message: '分析结果仅供参考！',
+                    type: 'success',
+                    offset: 100
+                });
+            }
         }
     },
     watch: {
@@ -145,9 +148,11 @@ export default {
         .content-wrapper
             width 1200px
             box-shadow: 0 2px 12px 0 rgba(64, 158, 255, 0.3)
+            border-radius 20px
             display flex
             flex-direction column
             align-items center
+            margin 0 100px
             .title-wrapper
                 width 950px
                 text-align center

@@ -32,7 +32,7 @@ export default {
             position relative
             height 100%
             width 1200px
-
+            margin 0 100px
             .img-wrapper
                 position absolute
                 top 50%

@@ -67,6 +67,7 @@ export default {
             color #99a1a6
             line-height 40px
             font-size 14px
+            margin 0 100px
             .message1
                 margin-top 40px
             .icon-wrapper
