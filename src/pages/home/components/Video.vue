@@ -1,6 +1,8 @@
 <template>
     <div class="wrapper">
-        <div class="contents-wrapper">
+        <div class="more" v-show = "more" @click="ClickMore">点击了解更多 <span class="el-icon-arrow-down"></span></div>
+        <el-collapse-transition>
+        <div class="contents-wrapper" v-if="showMore">
             <div class="content-title"><span class="iconfont">&#xe63c;</span>了解林大</div>
             <div class="content-wrapper" @click="ClickOne">
                 <div class="content content1">
@@ -18,7 +20,7 @@
                     <img class="img" src="https://volunteer-analysis.oss-cn-shenzhen.aliyuncs.com/home/%E9%9B%A8%E6%A8%B1.jpg" alt="">
                     <div class="info-wrapper">
                         <div class="title">雨樱 · 林科大</div>
-                        <div class="info">春天的林科大有多美呢？ 来吧，我想和你一起赏樱！<br> 感谢 视频制作人：uncleB</div>
+                        <div class="info">春天的林科大有多美呢？ 来吧，我想和你一起赏樱！<br> 感谢 视频制作人：uncleB （微信：17600161701）</div>
                     </div>
                 </div>
             </div>
@@ -42,7 +44,9 @@
                     </div>
                 </div>
             </div>
+
         </div>
+        </el-collapse-transition>
         <div class="video-wrapper" v-if="showVideo" >
             <div class="back" @click="Close"></div>
             <video-player class="video-player vjs-custom-skin" ref="videoPlayer" :playsinline="true" :options="playerOptions"></video-player>
@@ -57,6 +61,8 @@ export default {
     name: 'HomeVideo',
     data() {
         return {
+            showMore: false,
+            more: true,
             showVideo: false,
             playerOptions: {
                 playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
@@ -71,7 +77,7 @@ export default {
                     type: "video/mp4",
                     src: "" //视频url地址
                 }],
-                poster: "../../static/image/thumb_1_1380_460_20181009043014983386.jpg", //你的封面地址
+                poster: "", //你的封面地址
                 // width: document.documentElement.clientWidth,
                 notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
                 controlBar: {
@@ -80,33 +86,45 @@ export default {
                     remainingTimeDisplay: false,
                     fullscreenToggle: true  //全屏按钮
                 }
-                }
             }
+        }
     },
     methods :{
+        ClickMore () {
+            this.showMore = true
+            this.more = false
+        },
         ClickOne () {
             this.showVideo = true
-            this.playerOptions.sources = {type: "video/mp4",
-                    src: "https://volunteer-analysis.oss-cn-shenzhen.aliyuncs.com/video/%E9%82%82%E9%80%85%E6%9E%97%E7%A7%91%E5%A4%A7%EF%BC%88%E6%96%B0%EF%BC%89.mp4" //视频url地址
-                }
+            this.playerOptions.sources = {
+                type: "video/mp4",
+                src: "https://volunteer-analysis.oss-cn-shenzhen.aliyuncs.com/video/%E9%82%82%E9%80%85%E6%9E%97%E7%A7%91%E5%A4%A7%EF%BC%88%E6%96%B0%EF%BC%89.mp4" //视频url地址
+            }
+            this.playerOptions.poster = 'https://volunteer-analysis.oss-cn-shenzhen.aliyuncs.com/home/%E9%82%82%E9%80%85.jpg'
         },
         ClickTwo () {
             this.showVideo = true
-            this.playerOptions.sources = {type: "video/mp4",
-                    src: "https://volunteer-analysis.oss-cn-shenzhen.aliyuncs.com/video/%E9%9B%A8%E6%A8%B1%C2%B7%E6%9E%97%E7%A7%91%E5%A4%A7%EF%BC%88%E6%96%B0%EF%BC%89.mp4" //视频url地址
-                }
+            this.playerOptions.sources = {
+                type: "video/mp4",
+                src: "https://volunteer-analysis.oss-cn-shenzhen.aliyuncs.com/video/%E9%9B%A8%E6%A8%B1%C2%B7%E6%9E%97%E7%A7%91%E5%A4%A7%EF%BC%88%E6%96%B0%EF%BC%89.mp4" //视频url地址
+            }
+            this.playerOptions.poster = 'https://volunteer-analysis.oss-cn-shenzhen.aliyuncs.com/home/%E9%9B%A8%E6%A8%B1.jpg'
         },
         ClickThree () {
             this.showVideo = true
-            this.playerOptions.sources = {type: "video/mp4",
-                    src: "https://volunteer-analysis.oss-cn-shenzhen.aliyuncs.com/video/%E5%8D%B0%E8%B1%A1%E6%9E%97%E7%A7%91%E5%A4%A7.mp4" //视频url地址
-                }
+            this.playerOptions.sources = {
+                type: "video/mp4",
+                src: "https://volunteer-analysis.oss-cn-shenzhen.aliyuncs.com/video/%E5%8D%B0%E8%B1%A1%E6%9E%97%E7%A7%91%E5%A4%A7.mp4" //视频url地址
+            }
+            this.playerOptions.poster = 'https://volunteer-analysis.oss-cn-shenzhen.aliyuncs.com/home/%E5%8D%B0%E8%B1%A1.jpg'
         },
         ClickFour () {
             this.showVideo = true
-            this.playerOptions.sources = {type: "video/mp4",
-                    src: "https://volunteer-analysis.oss-cn-shenzhen.aliyuncs.com/video/24%EF%BC%9A05%E5%8E%9F%E8%89%B2%E9%95%BF%E6%B2%99.mp4" //视频url地址
-                }
+            this.playerOptions.sources = {
+                type: "video/mp4",
+                src: "https://volunteer-analysis.oss-cn-shenzhen.aliyuncs.com/video/24%EF%BC%9A05%E5%8E%9F%E8%89%B2%E9%95%BF%E6%B2%99.mp4" //视频url地址
+            }
+            this.playerOptions.poster = 'https://volunteer-analysis.oss-cn-shenzhen.aliyuncs.com/home/20%EF%BC%9A45.jpg'
         },
         Close() {
             this.showVideo = false
@@ -122,6 +140,9 @@ export default {
         flex-direction column
         align-items center
         margin-bottom 50px
+        .more
+            font-size 20px
+            color #666
         .video-wrapper
             .back
                 position fixed

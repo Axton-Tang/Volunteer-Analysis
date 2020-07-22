@@ -10,8 +10,7 @@
                         width="350"
                         trigger="click"
                     >
-                        <div>1、 只有当学校录取概率为“中”及以上的考生才能显示专业被调剂概率分析</div><br>
-                        <div>2、 此处显示的专业为学校在考生所在省份及科类的全部招生专业，未显示的专业则代表在该省份不招生</div>
+                        <div>此处显示的专业为学校在考生所在省份及科类的全部招生专业，未显示的专业则代表在该省份不招生</div>
                         <i class="el-icon-question" slot="reference"></i>
                     </el-popover>
                 

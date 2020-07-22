@@ -3,7 +3,7 @@
         <div class="content-wrapper">
             <el-popconfirm
                 class="back"
-                title="请不要频繁返回！"
+                title="确定返回吗？"
                 @onConfirm="handleBack"
                 >
                 <el-button slot="reference" >返回</el-button>
@@ -21,7 +21,7 @@
                         <div>“高” ：被录取的概率高 </div>
                         <div>“中” ：有一定概率被录取，但运气成分很大 </div>
                         <div>“低” ：基本上不会被录取 </div><br>
-                        <div>“失败” ：表示系统分析失败，可能是系统不支持该省份科类分析,与考生所填信息无关！ </div>
+                        <div>“失败” ：表示系统分析失败，可能是系统不支持该省份科类分析,与考生成绩无关！ </div>
                         <i class="el-icon-question" slot="reference"></i>
                     </el-popover>
                     </div>
@@ -33,8 +33,9 @@
                     <el-progress type="dashboard" text-inside='' :percentage="percentage" :color="colors"></el-progress>
                 </div>
                 <div class="tips-wrapper">
-                    <div>1、 录取概率的分析未考虑地方专项计划、国家专项计划、中外合作办学等招生类型。仅分析“普通类”的录取概率</div><br>
-                    <div>2、 系统对考生信息进行分析后所得出的录取概率仅供参考，我方不对录取与否负任何责任！</div>
+                    <div>1、 录取概率的分析未考虑地方专项计划、国家专项计划、中外合作办学、音乐类、美术类等招生类型。仅分析“普通类”的录取概率</div><br>
+                    <div>2、 系统对考生信息进行分析后所得出的录取概率仅供参考，我方不对录取与否负任何责任！</div><br>
+                    <div>3、 只有当学校录取概率为“中”及以上的考生才能显示下方的专业被调剂概率分析</div>
                 </div>
             </div>
             <div class="border"></div>

@@ -55,8 +55,8 @@ export default {
             form : {
                 radio1: '湖南',
                 radio2: '理科',
-                num1: 32000,
-                num2: 550
+                num1: 34000,
+                num2: 540
             },
             provinceList1:[{
                 'id':1,

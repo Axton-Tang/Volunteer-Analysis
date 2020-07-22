@@ -24,10 +24,9 @@
                     <el-progress type="dashboard" text-inside='' :percentage="percentage" :color="colors"></el-progress>
                 </div>
                 <div class="tips-wrapper">
-                    <div>1、 只有当学校录取概率为“中”及以上的考生，才能够显示专业被调剂概率分析</div> <br>
-                    <div>2、 专业被调剂概率的是在学校录取概率的基础上分进行析的，
+                    <div>1、 专业被调剂概率的是在学校录取概率的基础上分进行析的，
                         而学校录取概率可能就具有一定偏差，故专业被调剂概率的偏差可能更大，仅供参考！</div><br>
-                    <div>3、 各省份各专业的招生计划只考虑“普通类”</div>
+                    <div>2、 各省份各专业的招生计划只考虑“普通类”</div>
                 </div>
             </div>
             <div class="border"></div>

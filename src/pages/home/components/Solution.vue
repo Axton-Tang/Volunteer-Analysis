@@ -38,6 +38,7 @@ export default {
             res=res.data
             const data=res.data
             this.solutions = data
+            console.log(this.solutions[0].id)
         }
     },
     mounted() {
